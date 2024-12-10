@@ -47,15 +47,15 @@ INSTALLED_APPS = [
     'myapp',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE = [ 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -136,12 +136,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 STATIC_URL = '/static/'  # Use trailing slash
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'DataLink_Django/static'),  # Explicit path to the static directory
+STATICFILES_DIRS = [   
+    BASE_DIR / "static", 
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Used for 'collectstatic' in production
+STATIC_ROOT = BASE_DIR / "staticfiles"   # Used for 'collectstatic' in production
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
