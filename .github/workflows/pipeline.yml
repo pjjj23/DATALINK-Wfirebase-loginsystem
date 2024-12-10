@@ -1,0 +1,32 @@
+name: Deploy to PythonAnywhere
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Install SSH Key
+      run: |
+        echo "${{ secrets.PA_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts
+
+    - name: Deploy to PythonAnywhere
+      run: |
+        ssh <pjjj122>@ssh.pythonanywhere.com "
+        cd ~/firebase-login-django &&
+        git pull origin main &&
+        workon venv &&
+        pip install -r requirements.txt &&
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        touch reload_wsgi.py
+        "
